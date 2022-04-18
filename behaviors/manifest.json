@@ -1,0 +1,54 @@
+{
+	"format_version": 2,
+	"header": {
+		"description": "Adds compatibility between Borgy's Mobs and Prehistoric Rift",
+		"name": "Borgy's Compatibilizer",
+		"uuid": "5053f212-b0b0-4b99-abe9-377f2c19c39a",
+		"version": [
+			1,
+			0,
+			0
+		],
+		"min_engine_version": [
+			1,
+			14,
+			0
+		]
+	},
+	"modules": [
+		{
+			"description": "borgys compatibilizer",
+			"type": "data",
+			"uuid": "058c1906-7f57-4053-9a6b-e6ed6a6ffe8e",
+			"version": [
+				1,
+				0,
+				0
+			]
+		},
+		{
+			"description": "Gametest Module",
+			"type": "javascript",
+			"uuid": "e59a35e5-6e3e-48d2-8017-bc0b49da0249",
+			"version": [0, 1, 0],
+			"entry": "scripts/Main.js"
+		}
+	],
+	"dependencies": [
+		{
+			// Minecraft native module - needed to use the "mojang-minecraft" module
+			"uuid": "b26a4d4c-afdf-4690-88f8-931846312678",
+			"version": [
+				0,
+				1, 
+				0
+			]
+		}
+	],
+	"metadata": {
+		"authors": [
+			"ANightDazingZoroark"
+		],
+		"url": "https://discord.gg/qVWaKRMCRc"
+	}
+}
