@@ -170,6 +170,79 @@
               "on_damage": {
                 "filters": {
                   "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "forcedAttack"
+                    },
+                    {
+                      "test": "has_target",
+                      "subject": "self",
+                      "value": false
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": "self",
+                      "value": "minecraft:is_illager_captain"
+                    },
+                    {
+                      "test": "has_damage",
+                      "subject": "self",
+                      "operator": "!=",
+                      "value": "fatal"
+                    }
+                  ]
+                },
+                "event": "rift:on_force_attacked",
+                "target": "self"
+              }
+            },
+            {
+              "on_damage": {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "forcedAttack"
+                    },
+                    {
+                      "test": "has_damage",
+                      "subject": "self",
+                      "value": "fatal"
+                    }
+                  ]
+                },
+                "event": "rift:on_force_attacked_death",
+                "target": "self"
+              }
+            },
+            {
+              "on_damage": {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "sarcoSpinAttack"
+                },
+                "event": "rift:hit_by_sarco_spin",
+                "target": "self"
+              }
+            },
+            {
+              "on_damage": {
+                  "filters": {
+                  "test": "has_equipment",
+                  "subject": "other",
+                  "value": "rift:dimetrodon_frost_attack"
+                  },
+                  "event": "rift:hit_by_frost_dimetrodon",
+                  "target": "self"
+              }
+            },
+            {
+              "on_damage": {
+                "filters": {
+                  "all_of": [
                     { "test": "is_family", "subject": "other", "value": "headcrab" },
                     { "test": "is_family", "subject": "other", "operator": "!=", "value": "headcrab_zombie" }
                   ]
@@ -319,6 +392,79 @@
               "on_damage": {
                 "filters": {
                   "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "forcedAttack"
+                    },
+                    {
+                      "test": "has_target",
+                      "subject": "self",
+                      "value": false
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": "self",
+                      "value": "minecraft:is_illager_captain"
+                    },
+                    {
+                      "test": "has_damage",
+                      "subject": "self",
+                      "operator": "!=",
+                      "value": "fatal"
+                    }
+                  ]
+                },
+                "event": "rift:on_force_attacked",
+                "target": "self"
+              }
+            },
+            {
+              "on_damage": {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "forcedAttack"
+                    },
+                    {
+                      "test": "has_damage",
+                      "subject": "self",
+                      "value": "fatal"
+                    }
+                  ]
+                },
+                "event": "rift:on_force_attacked_death",
+                "target": "self"
+              }
+            },
+            {
+              "on_damage": {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "sarcoSpinAttack"
+                },
+                "event": "rift:hit_by_sarco_spin",
+                "target": "self"
+              }
+            },
+            {
+              "on_damage": {
+                  "filters": {
+                  "test": "has_equipment",
+                  "subject": "other",
+                  "value": "rift:dimetrodon_frost_attack"
+                  },
+                  "event": "rift:hit_by_frost_dimetrodon",
+                  "target": "self"
+              }
+            },
+            {
+              "on_damage": {
+                "filters": {
+                  "all_of": [
                     { "test": "is_family", "subject": "other", "value": "headcrab" },
                     { "test": "is_family", "subject": "other", "operator": "!=", "value": "headcrab_zombie" }
                   ]
@@ -440,6 +586,26 @@
           "speed_multiplier": 0.8,
           "within_radius": 64,
           "follow_distance": 5
+        }
+      },
+      "rift:attack_forced_attack_entity": {
+        "minecraft:behavior.nearest_attackable_target": {
+          "priority": 2,
+          "entity_types": [
+            {
+              "filters": {
+                  "test": "is_family", 
+                  "subject": "other", 
+                  "value": "isForcedAttacking"
+               },
+              "max_dist": 12
+            }
+          ]
+        }
+      },     
+      "rift:drop_experience_from_forced_attack": {
+        "minecraft:experience_reward": {
+          "on_death": "(query.is_baby ? 12 : 5) + (Math.die_roll(query.equipment_count,1,3))"
         }
       },
       "borgy:become_headcrab_zombie": {
@@ -579,7 +745,26 @@
         "probability": 0.02
       },
       "minecraft:behavior.hurt_by_target": {
-        "priority": 1
+        "priority": 1,
+        "entity_types": {
+          "filters": {
+            "all_of": [
+              {
+                "test": "is_family",
+                "subject": "other",
+                "operator": "!=",
+                "value": "illager"
+              },
+              {
+                "test": "is_family",
+                "subject": "other",
+                "operator": "!=",
+                "value": "forcedAttack"
+              }
+            ]
+          },
+          "max_dist": 64
+        }
       },
       "minecraft:on_target_acquired": {
         "event": "minecraft:become_aggro",
@@ -597,6 +782,80 @@
       },
       "minecraft:damage_sensor": {
         "triggers": [
+          {
+            "on_damage": {
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "forcedAttack"
+                  },
+                  {
+                    "test": "has_target",
+                    "subject": "self",
+                    "value": false
+                  },
+                  {
+                    "test": "has_component",
+                    "subject": "self",
+                    "operator": "!=",
+                    "value": "minecraft:is_illager_captain"
+                  },
+                  {
+                    "test": "has_damage",
+                    "subject": "self",
+                    "operator": "!=",
+                    "value": "fatal"
+                  }
+                ]
+              },
+              "event": "rift:on_force_attacked",
+              "target": "self"
+            }
+          },
+          {
+            "on_damage": {
+              "filters": {
+                "all_of": [
+                  {
+                    "test": "is_family",
+                    "subject": "other",
+                    "value": "forcedAttack"
+                  },
+                  {
+                    "test": "has_damage",
+                    "subject": "self",
+                    "value": "fatal"
+                  }
+                ]
+              },
+              "event": "rift:on_force_attacked_death",
+              "target": "self"
+            }
+          },
+          {
+            "on_damage": {
+              "filters": {
+                "test": "is_family",
+                "subject": "other",
+                "value": "sarcoSpinAttack"
+              },
+              "event": "rift:hit_by_sarco_spin",
+              "target": "self"
+            }
+          },
+					{
+						"on_damage": {
+						  	"filters": {
+								"test": "has_equipment",
+								"subject": "other",
+								"value": "rift:dimetrodon_frost_attack"
+						  	},
+						  	"event": "rift:hit_by_frost_dimetrodon",
+						  	"target": "self"
+						}
+					},
           {
             "on_damage": {
               "filters": {
@@ -748,6 +1007,7 @@
       "minecraft:stop_aggro": {
         "remove": {
           "component_groups": [
+            "rift:attack_forced_attack_entity",
             "minecraft:vindicator_aggro"
           ]
         }
@@ -815,6 +1075,102 @@
       },
       "minecraft:stop_celebrating": {
         "remove": { "component_groups": [ "minecraft:celebrate" ] }
+      },
+      "rift:on_force_attacked": {
+        "sequence": [
+          {
+            "add": {
+              "component_groups": [
+                "rift:attack_forced_attack_entity"
+              ]
+            },
+            "remove": {
+              "component_groups": [
+                "minecraft:default_targeting"
+              ]
+            }
+          },
+          {
+            "filters": {
+              "test": "is_family",
+              "subject": "other",
+              "value": "anomalocarisForcedAttack"
+            },
+            "run_command": {
+              "command": [
+                "effect @e[type=rift:anomalocaris, tag=tamed, tag=ridden, c=1] instant_health 5 0"
+              ]
+            }
+          }
+        ]
+      },
+      "rift:hit_by_sarco_spin": {
+				"run_command": {
+					"command": [
+						"effect @s slowness 30 2"
+					]
+				}
+			},
+			"rift:hit_by_frost_dimetrodon": {
+				"run_command": {
+					"command": [
+						"effect @s weakness 20 2",
+						"effect @s slowness 20 2"
+				  	]
+				}
+			},
+      "rift:on_force_attacked_death": {
+        "sequence": [
+          {
+
+          },
+          {
+              "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "operator": "!=",
+                  "value": "sarcoSpinAttack"
+              },
+              "add": {
+                  "component_groups": [
+                      "rift:drop_experience_from_forced_attack"
+                  ]
+              }
+          },
+          {
+              "filters": {
+                  "all_of": [
+                      {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "sarcoSpinAttack"
+                      },
+                      {
+                          "test": "has_component",
+                          "subject": "other",
+                          "value": "minecraft:is_tamed"
+                      }
+                  ]
+              },
+              "add": {
+                  "component_groups": [
+                      "rift:drop_experience_from_forced_attack"
+                  ]
+              }
+          },
+          {
+            "filters": {
+              "test": "is_family",
+              "subject": "other",
+              "value": "anomalocarisForcedAttack"
+            },
+            "run_command": {
+              "command": [
+                "effect @e[type=rift:anomalocaris, tag=tamed, tag=ridden, c=1] instant_health 5 2"
+              ]
+            }
+          }
+        ]
       },
       "borgy:become_headcrab_zombie": {
         "add": { "component_groups": [ "borgy:become_headcrab_zombie" ] },

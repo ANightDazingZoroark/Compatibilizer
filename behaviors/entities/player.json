@@ -1,5 +1,5 @@
 {
-	"format_version": "1.17.0",
+	"format_version": "1.16.0",
 	"minecraft:entity": {
 		"description": {
 			"identifier": "minecraft:player",
@@ -34,7 +34,6 @@
 				"contNoonTest": "controller.animation.noon_test",
 				"contDetectRiding": "controller.animation.detect_riding",
 				//"contCardinalFacing": "controller.animation.cardinal_facing",
-
 				"contPlayerArmor": "controller.animation.player_armor",
 				"contPoisonAura": "controller.animation.player_poison_aura",
 				"contControlIcthyosaur": "controller.animation.player_control_icthyosaur",
@@ -47,7 +46,6 @@
 				"contRideLavawyrm": "controller.animation.player_ride_lavawyrm",
 				"contDismount": "controller.animation.player_dismount",
 				"contWeaponManagement": "controller.animation.player_weapon_management",
-
 				"animAbilitySwitchCooldown": "animation.command_staff_switch_cooldown",
 				"animClimbStay": "animation.stay_in_place",
 				"animClimbUp": "animation.climb_up",
@@ -60,7 +58,6 @@
 				"animPiranhaSwarm": "animation.piranha_swarm",
 				"animWolfHunt": "animation.wolf_hunt",
 				"animHerbivoreStampede": "animation.herbivore_stampede",
-
 				"animBakunawaArmorEffects": "animation.player_bakunawa_armor_effects",
 				"animPlagueArmorEffects": "animation.player_plague_armor_effects",
 				"animPoisonAuraCountdown": "animation.player_poison_aura_countdown",
@@ -105,7 +102,6 @@
 					"contNoonTest",
 					"contDetectRiding",
 					//"contCardinalFacing",
-
 					"contPlayerArmor",
 					"contPoisonAura",
 					"contControlIcthyosaur",
