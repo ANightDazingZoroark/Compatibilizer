@@ -1,0 +1,1747 @@
+{
+    "format_version": "1.16.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "borgy:bakunawa",
+            "is_spawnable": true,
+            "is_summonable": true,
+            "is_experimental": false,
+            "animations": {
+                "contRiderSensor": "controller.animation.bakunawa_rider_sensor",
+                "contFasterInAir": "controller.animation.bakunawa_faster_with_rider",
+                "contHasHeart": "controller.animation.bakunawa_has_heart",
+                "contForcedAttack": "controller.animation.bakunawa_forced_attack",
+                "contAddTameTag": "controller.animation.add_tame_tag",
+                "contUnsittableWhenRidden": "controller.animation.become_unsittable_when_ridden",
+                "animForcedAttack": "animation.forced_attack_bakunawa",
+                "animFastInAir": "animation.bakunawa_fast_in_air",
+                "animHeartEffects": "animation.bakunawa_heart_effects"
+            },
+            "scripts": {
+                "animate": [
+                    "contRiderSensor",
+                    "contFasterInAir",
+                    "contHasHeart",
+                    "contForcedAttack",
+                    "contAddTameTag",
+                    "contUnsittableWhenRidden"
+                ]
+            }
+        },
+        "component_groups": {
+            "borgy:bakunawa_baby": {
+                "minecraft:is_baby": {},
+                "minecraft:health": {
+                    "value": 30
+                },
+                "minecraft:attack": {
+                    "damage": 6
+                },
+                "minecraft:scale_by_age": {
+                    "start_scale": 0.1,
+                    "end_scale": 0.4
+                },
+                "minecraft:breathable": {
+                    "total_supply": 15,
+                    "suffocate_time": 0,
+                    "breathes_air": false,
+                    "breathes_water": true,
+                    "generates_bubbles": false
+                },
+                "minecraft:behavior.melee_attack": {
+                    "priority": 9
+                },
+                "minecraft:physics": {},
+                "minecraft:behavior.tempt": {
+					"priority": 11,
+					"within_radius": 16,
+					"speed_multiplier": 1,
+					"items": [
+                        "minecraft:fish",
+                        "minecraft:cooked_fish",
+                        "minecraft:salmon",
+                        "minecraft:cooked_salmon",
+                        "minecraft:tropical_fish",
+                        "minecraft:pufferfish"
+					]
+                }
+            },
+            "borgy:bakunawa_baby_wild": {
+                "minecraft:ageable": {
+                    "duration": 1200,
+                    "grow_up": {
+                        "event": "borgy:baby_grow_up_wild",
+                        "target": "self"
+                    }
+                },
+                "minecraft:tameable": {
+					"probability": 0.25,
+					"tame_items": [
+                        "minecraft:fish",
+                        "minecraft:cooked_fish",
+                        "minecraft:salmon",
+                        "minecraft:cooked_salmon",
+                        "minecraft:tropical_fish",
+                        "minecraft:pufferfish"
+					],
+					"tame_event": {
+						"event": "borgy:on_tame",
+						"target": "self"
+					}
+                }
+            },
+            "borgy:bakunawa_baby_tamed": {
+                "minecraft:movement": {
+                    "value": 0.25
+                },
+                "minecraft:ageable": {
+                    "duration": 1200,
+                    "grow_up": {
+                        "event": "borgy:baby_grow_up_tamed",
+                        "target": "self"
+                    },
+                    "feed_items": [
+						{
+							"item": "minecraft:fish",
+							"growth": 0.1
+						},
+						{
+							"item": "minecraft:cooked_fish",
+							"growth": 0.125
+						},
+						{
+							"item": "minecraft:salmon",
+							"growth": 0.1
+						},
+						{
+							"item": "minecraft:cooked_salmon",
+							"growth": 0.125
+						},
+						{
+							"item": "minecraft:tropical_fish",
+							"growth": 0.1
+						},
+						{
+							"item": "minecraft:pufferfish",
+							"growth": 0.125
+						}
+                    ]
+                },
+                "minecraft:navigation.generic": {
+                    "is_amphibious": true,
+                    "can_path_over_water": false,
+                    "can_swim": true,
+                    "can_walk": true,
+                    "can_breach": true,
+                    "can_sink": false
+                },
+                "minecraft:movement.basic": {}
+            },
+            "borgy:bakunawa_baby_wild_on_land": {
+                "minecraft:movement": {
+                    "value": 0.25
+                },
+                "minecraft:navigation.walk": {
+                    "can_path_over_water": true,
+                    "avoid_water": false,
+                    "avoid_damage_blocks": true
+                },
+                "minecraft:movement.basic": {},
+                "minecraft:behavior.random_stroll": {
+                    "priority": 19
+                },
+                "minecraft:behavior.move_to_water": {
+					"priority": 14,
+					"search_range": 64,
+					"search_height": 64,
+                    "goal_radius": 0.5
+				}
+            },
+            "borgy:bakunawa_baby_wild_on_water": {
+                "minecraft:movement": {
+                    "value": 0.25
+                },
+                "minecraft:navigation.generic": {
+                    "is_amphibious": false,
+                    "can_path_over_water": false,
+                    "can_swim": true,
+                    "can_walk": false,
+                    "can_breach": true,
+                    "can_sink": false
+                },
+                "minecraft:movement.generic": {},
+                "minecraft:behavior.random_swim": {
+                    "priority": 17,
+                    "interval": 0,
+                    "xz_dist": 20
+                }
+            },
+            "borgy:bakunawa_adult": {
+                "minecraft:attack": {
+                    "damage": 24
+                },
+                "minecraft:scale": {
+                    "value": 0.7
+                },
+                "minecraft:breathable": {
+                    "total_supply": 15,
+                    "suffocate_time": 0,
+                    "breathes_air": true,
+                    "breathes_water": true,
+                    "generates_bubbles": false
+                },
+                "minecraft:physics": {},
+                "minecraft:loot": {
+                    "table": "loot_tables/bakunawa.loot.json"
+                },
+                "minecraft:knockback_resistance": {
+                    "value": 100,
+                    "max": 100
+                }
+            },
+            "borgy:bakunawa_adult_wild": {
+                "minecraft:health": {
+                    "value": 300,
+                    "max": 300
+                },
+                "minecraft:despawn": {
+                    "despawn_from_distance": {}
+                },
+                "minecraft:experience_reward": {
+                    "on_bred": "Math.random(20, 32)",
+                    "on_death": "query.last_hit_by_player ? Math.Random(16, 24) : 0"
+                },
+                "minecraft:behavior.hurt_by_target": {
+                    "priority": 6,
+                    "entity_types": {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "operator": "!=",
+                            "value": "forcedAttack"
+                        }
+                    }
+                }
+            },
+            "borgy:default_targets": {
+                "minecraft:behavior.nearest_attackable_target": {
+                    "priority": 7,
+                    "within_radius": 96,
+                    "entity_types": [
+                        {
+                            "filters": {
+                                "test": "is_family",
+                                "subject": "other",
+                                "value": "mob"
+                            },
+                            "max_dist": 96,
+                            "must_see": false
+                        },
+                        {
+                            "filters": {
+                                "all_of": [
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    },
+                                    {
+                                        "test": "is_riding",
+                                        "subject": "other",
+                                        "value": false
+                                    }
+                                ]
+                            },
+                            "max_dist": 96,
+                            "must_see": false
+                        }
+                    ]
+                }
+            },
+            "borgy:attack_forced_attack_entity": {
+                "minecraft:behavior.nearest_attackable_target": {
+                    "priority": 7,
+                    "within_radius": 96,
+                    "entity_types": [
+                        {
+                            "filters": {
+                              "test": "is_family",
+                              "subject": "other",
+                              "value": "isForcedAttacking"
+                            }
+                        }
+                    ]
+                },
+                "minecraft:on_target_escape": {
+                    "event": "borgy:no_force_attacked",
+                    "target": "self"
+                }
+            },
+            "borgy:bakunawa_adult_tamed": {
+                "minecraft:health": {
+                    "value": 300,
+                    "max": 400
+                },
+                "minecraft:movement": {
+                    "value": 0.25
+                },
+                "minecraft:movement.generic": {},
+                "minecraft:target_nearby_sensor": {
+                    "inside_range": 4,
+                    "outside_range": 8,
+                    "on_inside_range": {
+                        "event": "borgy:land_use_melee",
+                        "target": "self"
+                    },
+                    "on_outside_range": {
+                        "event": "borgy:land_use_ranged",
+                        "target": "self"
+                    }
+                },
+                "minecraft:inventory": {
+					"container_type": "horse",
+					"inventory_size": 16,
+                    "restrict_to_owner": true,
+					"private": false
+				},
+                "minecraft:healable": {
+					"items": [
+						{
+							"item": "minecraft:beef",
+							"heal_amount": 16
+						},
+						{
+							"item": "minecraft:cooked_beef",
+							"heal_amount": 20
+						},
+						{
+							"item": "minecraft:porkchop",
+							"heal_amount": 16
+						},
+						{
+							"item": "minecraft:cooked_porkchop",
+							"heal_amount": 20
+						},
+						{
+							"item": "minecraft:chicken",
+							"heal_amount": 16
+						},
+						{
+							"item": "minecraft:cooked_chicken",
+							"heal_amount": 20
+						},
+						{
+							"item": "minecraft:muttonraw",
+							"heal_amount": 16
+						},
+						{
+							"item": "minecraft:muttoncooked",
+							"heal_amount": 20
+						},
+						{
+							"item": "minecraft:rabbit",
+							"heal_amount": 16
+						},
+						{
+							"item": "minecraft:cooked_rabbit",
+							"heal_amount": 20
+						},
+						{
+							"item": "minecraft:rotten_flesh",
+							"heal_amount": 12
+						},
+                        {
+                            "item": "minecraft:fish",
+                            "heal_amount": 15
+                        },
+                        {
+                            "item": "minecraft:cooked_fish",
+                            "heal_amount": 15
+                        },
+                        {
+                            "item": "minecraft:salmon",
+                            "heal_amount": 15
+                        },
+                        {
+                            "item": "minecraft:cooked_salmon",
+                            "heal_amount": 15
+                        },
+                        {
+                            "item": "minecraft:tropical_fish",
+                            "heal_amount": 15
+                        },
+                        {
+                            "item": "minecraft:pufferfish",
+                            "heal_amount": 15
+                        },
+                        {
+                            "item": "minecraft:rotten_flesh",
+                            "heal_amount": 15
+                        },
+                        {
+							"item": "borgy:raw_alien_meat",
+							"heal_amount": 16
+						},
+						{
+							"item": "borgy:cooked_alien_meat",
+							"heal_amount": 20
+						},
+                        {
+							"item": "borgy:raw_headcrab",
+							"heal_amount": 16
+						},
+						{
+							"item": "borgy:cooked_headcrab",
+							"heal_amount": 20
+						}
+					]
+				},
+                "minecraft:equippable": {
+					"slots": [
+						{
+							"slot": 0,
+							"accepted_items": [
+								"minecraft:saddle"
+							],
+							"item": "minecraft:saddle",
+							"interact_text": "action.interact.saddle",
+							"on_equip": {
+								"event": "borgy:attach_saddle",
+								"target": "self"
+							},
+							"on_unequip": {
+								"event": "borgy:remove_saddle",
+								"target": "self"
+							}
+						}
+					]
+				},
+                "minecraft:breedable": {
+                    "breeds_with": {
+                        "mate_type": "borgy:bakunawa",
+                        "baby_type": "borgy:bakunawa_egg",
+                        "breed_event": {
+                            "event": "minecraft:entity_spawned",
+                            "target": "baby"
+                        }
+                    },
+                    "breed_items": [
+                        "minecraft:beef",
+                        "minecraft:cooked_beef",
+                        "minecraft:porkchop",
+                        "minecraft:cooked_porkchop",
+                        "minecraft:chicken",
+                        "minecraft:cooked_chicken",
+                        "minecraft:mutton",
+                        "minecraft:cooked_mutton",
+                        "minecraft:rabbit",
+                        "minecraft:cooked_rabbit",
+                        "minecraft:rotten_flesh",
+                        "minecraft:fish",
+                        "minecraft:cooked_fish",
+                        "minecraft:salmon",
+                        "minecraft:cooked_salmon",
+                        "minecraft:tropical_fish",
+                        "minecraft:pufferfish",
+                        "borgy:raw_alien_meat",
+                        "borgy:cooked_alien_meat",
+                        "borgy:raw_headcrab",
+                        "borgy:cooked_headcrab"
+                    ],
+                    "require_tame": true,
+                    "require_full_health": true,
+                    "inherit_tamed": false,
+                    "breed_cooldown": 1200
+				},
+                "minecraft:behavior.player_ride_tamed": {}
+            },
+            "borgy:bakunawa_adult_tamed_no_rider": {
+				"minecraft:navigation.generic": {
+					"is_amphibious": true,
+					"can_path_over_water": false,
+					"can_swim": true,
+					"can_walk": true,
+					"can_breach": true,
+					"can_sink": false,
+					"avoid_damage_blocks": true
+				}
+			},
+            "borgy:bakunawa_adult_tamed_has_rider_hovering": {
+                "minecraft:navigation.generic": {
+                    "is_amphibious": false,
+                    "can_path_over_water": false,
+                    "can_swim": true,
+                    "can_walk": false,
+                    "can_breach": true,
+                    "can_sink": false
+                }
+			},
+            "borgy:bakunawa_adult_tamed_has_rider_controlled": {
+				"minecraft:navigation.generic": {
+                    "is_amphibious": false,
+                    "can_path_over_water": true,
+                    "can_swim": true,
+                    "can_walk": false,
+                    "can_breach": true,
+                    "can_sink": true
+                }
+			},
+            "borgy:bakunawa_adult_tamed_has_gravity": {
+                "minecraft:physics": {
+                    "has_gravity": true
+                }
+            },
+            "borgy:bakunawa_adult_tamed_has_no_gravity": {
+                "minecraft:physics": {
+                    "has_gravity": false
+                }
+            },
+            "borgy:bakunawa_adult_on_land": {
+                "minecraft:target_nearby_sensor": {
+                    "inside_range": 4,
+                    "outside_range": 8,
+                    "on_inside_range": {
+                        "event": "borgy:land_use_melee",
+                        "target": "self"
+                    },
+                    "on_outside_range": {
+                        "event": "borgy:land_use_ranged",
+                        "target": "self"
+                    }
+                },
+                "minecraft:movement": {
+                    "value": 0.25
+                },
+                "minecraft:navigation.walk": {
+                    "can_path_over_water": true,
+                    "avoid_water": false,
+                    "avoid_damage_blocks": true
+                },
+                "minecraft:movement.basic": {},
+                "minecraft:behavior.random_stroll": {
+                    "priority": 19
+                },
+                "minecraft:behavior.float": {
+                    "priority": 18
+                }
+            },
+            "borgy:bakunawa_adult_on_water": {
+                "minecraft:movement": {
+                    "value": 0.25
+                },
+                "minecraft:navigation.generic": {
+                    "is_amphibious": false,
+                    "can_path_over_water": false,
+                    "can_swim": true,
+                    "can_walk": false,
+                    "can_breach": true,
+                    "can_sink": false
+                },
+                "minecraft:movement.generic": {},
+                "minecraft:behavior.random_swim": {
+                    "priority": 17,
+                    "interval": 0,
+                    "xz_dist": 20
+                },
+                "minecraft:behavior.delayed_attack": {
+                    "priority": 8,
+                    "attack_duration": 0.52,
+                    "hit_delay_pct": 1,
+                    "track_target": true,
+                    "reach_multiplier": 3
+                }
+            },
+            "borgy:bakunawa_adult_on_air": {
+                "minecraft:movement": {
+                    "value": 0.05
+                },
+                "minecraft:navigation.float": {
+                    "can_path_over_water": true,
+                    "can_sink": false,
+                    "can_pass_doors": false,
+                    "can_path_from_air": true,
+                    "avoid_water": true,
+                    "avoid_damage_blocks": true
+                },
+                "minecraft:can_fly": {},
+                "minecraft:behavior.float_wander": {
+                    "priority": 15,
+                    "must_reach": true
+                },
+                "minecraft:behavior.float": {
+                    "priority": 18
+                },
+                "minecraft:shooter": {
+                    "def": "borgy:bakunawa_projectile"
+                },
+                "minecraft:behavior.ranged_attack": {
+                    "priority": 3,
+                    "speed_multiplier": 1,
+                    "burst_shots": 3,
+                    "burst_interval": 0.3,
+					"charge_charged_trigger": 0.1,
+					"charge_shoot_trigger": 0.3,
+                    "attack_interval_min": 1,
+                    "attack_interval_max": 3,
+                    "attack_radius": 32
+                }
+            },
+            "borgy:bakunawa_adult_land_use_melee": {
+                "minecraft:behavior.delayed_attack": {
+                    "priority": 8,
+                    "attack_duration": 0.52,
+                    "hit_delay_pct": 1,
+                    "track_target": true,
+                    "reach_multiplier": 3
+                }
+            },
+            "borgy:bakunawa_adult_land_use_range": {
+                "minecraft:shooter": {
+                    "def": "borgy:bakunawa_projectile"
+                },
+                "minecraft:behavior.ranged_attack": {
+                    "priority": 3,
+                    "speed_multiplier": 1,
+                    "burst_shots": 3,
+                    "burst_interval": 0.3,
+					"charge_charged_trigger": 0.36,
+					"charge_shoot_trigger": 0.52,
+                    "attack_interval_min": 1,
+                    "attack_interval_max": 3,
+                    "attack_radius": 32
+                }
+            },
+            "borgy:bakunawa_adult_water_to_air": {
+                "minecraft:behavior.random_breach": {
+                    "priority": 16,
+                    "interval": 1,
+                    "xz_dist": 128,
+                    "y_dist": 16,
+                    "cooldown_time": 0
+                }
+            },
+            "borgy:bakunawa_adult_air_to_water": {
+                "minecraft:behavior.move_to_water": {
+					"priority": 14,
+					"search_range": 64,
+					"search_height": 64,
+                    "goal_radius": 0.5
+				}
+            },
+            "borgy:bakunawa_tamed": {
+                "minecraft:is_tamed": {},
+                "minecraft:behavior.follow_owner": {
+                    "priority": 12
+                },
+                "minecraft:behavior.owner_hurt_target": {
+                    "priority": 5
+                },
+                "minecraft:behavior.owner_hurt_by_target": {
+                    "priority": 4
+                }
+            },
+            "borgy:bakunawa_sittable": {
+                "minecraft:sittable": {}
+            },
+            "borgy:bakunawa_rideable": {
+                "minecraft:rideable": {
+					"seats": [
+						{
+							"position": [
+                                0, 
+                                4.5, 
+                                0
+                            ]
+						}
+					]
+				}
+            },
+            "borgy:bakunawa_saddled": {
+                "minecraft:is_saddled": {},
+                "minecraft:input_ground_controlled": {},
+				"minecraft:can_power_jump": {},
+				"minecraft:horse.jump_strength": {
+					"value": {
+						"range_min": 0,
+						"range_max": 0
+					}
+				}
+            },
+            "borgy:bakunawa_chested": {
+                "minecraft:is_chested": {}
+            },
+            "borgy:bakunawa_use_breath_attack": {
+                "minecraft:spawn_entity": {
+                    "entities": [
+						{
+							"spawn_entity": "borgy:bakunawa_projectile",
+                            "spawn_event": "borgy:make_sounds_on_forced_launch",
+							"min_wait_time": 0,
+							"max_wait_time": 0,            
+                            "single_use": true
+						}
+					]
+                }
+            },
+            "borgy:default_collision": {
+                "minecraft:collision_box": {
+                    "height": 5,
+                    "width": 6
+                }
+            },
+            "borgy:small_collision": {
+                "minecraft:collision_box": {
+                    "height": 1,
+                    "width": 6
+                }
+            },
+            "borgy:bakunawa_has_received_heart": {
+                "minecraft:is_sheared": {},
+                "minecraft:timer": {
+                    "time": 480,
+                    "time_down_event": {
+                        "event": "borgy:heart_effect_expire",
+                        "target": "self"
+                    }
+                }
+            },
+            "borgy:is_pushable": {
+			    "minecraft:pushable": {
+				    "is_pushable": true,
+				    "is_pushable_by_piston": true
+			    }
+            },
+            "borgy:is_unpushable": {
+			    "minecraft:pushable": {
+				    "is_pushable": false,
+				    "is_pushable_by_piston": false
+			    }
+            },
+            "borgy:bakunawa_forced_attack": {
+                "minecraft:is_charged": {}
+            },
+            "borgy:default_family": {
+                "minecraft:type_family": {
+                    "family": [
+                        "bakunawa",
+                        "largeCarnivore",
+                        "mob"
+                    ]
+                }
+            },
+            "borgy:forced_attack_family": {
+                "minecraft:type_family": {
+                    "family": [
+                        "bakunawa",
+                        "largeCarnivore",
+                        "mob",
+						"isForcedAttacking"
+                    ]
+                }
+            },
+            "borgy:bakunawa_nest_guardian": {
+                "minecraft:home": {},
+                "minecraft:navigation.generic": {
+                    "is_amphibious": false,
+                    "can_path_over_water": false,
+                    "can_swim": true,
+                    "can_walk": true,
+                    "can_breach": true,
+                    "can_sink": false
+                },
+                "minecraft:physics": {
+                    "has_gravity": true
+                },
+                "minecraft:behavior.delayed_attack": {
+                    "priority": 8,
+                    "attack_duration": 0.52,
+                    "hit_delay_pct": 1,
+                    "track_target": true,
+                    "reach_multiplier": 3
+                }
+            },
+            "borgy:bakunawa_nest_guardian_sleeping": {
+                "minecraft:behavior.nap": {
+                    "priority": 2,
+                    "mob_detect_dist": 0,
+                    "mob_detect_height": 0
+                },
+                "minecraft:on_target_acquired": {
+                    "event": "borgy:wake_up",
+                    "target": "self"
+                }
+            },
+            "borgy:bakunawa_nest_guardian_awake": {
+                "minecraft:behavior.go_home": {
+                    "priority": 10,
+                    "goal_radius": 1.2,
+                    "on_home": {
+                        "event": "borgy:go_back_home",
+                        "target": "self"
+                    }
+                }
+            },     
+			"borgy:drop_experience_from_forced_attack": {
+			  	"minecraft:experience_reward": {
+					"on_death": "Math.random(16, 24)"
+			  	}
+			}
+        },
+        "components": {
+            "minecraft:water_movement": {
+                "drag_factor": 0.75
+            },
+            "minecraft:underwater_movement": {
+                "value": 0.3
+            },
+            "minecraft:collision_box": {
+                "height": 5,
+                "width": 6
+            },
+            "minecraft:jump.static": {},
+            "minecraft:is_hidden_when_invisible": {},
+            "minecraft:nameable": {},
+            "minecraft:behavior.stay_while_sitting": {
+                "priority": 0
+            },
+            "minecraft:behavior.breed": {
+                "priority": 1
+            },
+            "minecraft:interact": {
+                "interactions": [
+					{
+						"on_interact": {
+							"filters": {
+								"all_of": [
+									{
+										"any_of": [
+											{
+												"test": "has_equipment",
+												"subject": "other",
+												"domain": "hand",
+												"value": "minecraft:fish"
+											},
+											{
+												"test": "has_equipment",
+												"subject": "other",
+												"domain": "hand",
+												"value": "minecraft:cooked_fish"
+											},
+											{
+												"test": "has_equipment",
+												"subject": "other",
+												"domain": "hand",
+												"value": "minecraft:salmon"
+											},
+											{
+												"test": "has_equipment",
+												"subject": "other",
+												"domain": "hand",
+												"value": "minecraft:cooked_salmon"
+											},
+											{
+												"test": "has_equipment",
+												"subject": "other",
+												"domain": "hand",
+												"value": "minecraft:tropical_fish"
+											},
+											{
+												"test": "has_equipment",
+												"subject": "other",
+												"domain": "hand",
+												"value": "minecraft:pufferfish"
+											}
+										]
+									},
+									{
+										"test": "has_component",
+										"subject": "self",
+										"operator": "!=",
+										"value": "minecraft:is_tamed"
+									},
+									{
+										"test": "has_component",
+										"subject": "self",
+										"operator": "!=",
+										"value": "minecraft:is_baby"
+									}
+								]
+							},
+							"event": "borgy:lol",
+							"target": "self"
+						},
+						"interact_text": "action.interact.tame"
+					},
+					{
+						"on_interact": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "has_equipment",
+										"subject": "other",
+										"domain": "hand",
+										"value": "minecraft:chest"
+									},
+									{
+										"test": "is_owner",
+										"subject": "other",
+										"value": true
+									},
+									{
+										"test": "has_component",
+										"subject": "self",
+										"value": "minecraft:is_tamed"
+									},
+                                    {
+										"test": "has_component",
+										"subject": "self",
+                                        "operator": "!=",
+										"value": "minecraft:is_baby"
+									},
+									{
+										"test": "is_sneaking",
+										"subject": "other",
+										"value": true
+									}
+								]
+							},
+							"event": "borgy:attach_chest",
+							"target": "self"
+						},
+						"interact_text": "action.interact.attachchest",
+						"use_item": true
+					},
+                    {
+						"on_interact": {
+							"filters": {
+								"all_of": [
+									{
+										"test": "has_equipment",
+										"subject": "other",
+										"domain": "hand",
+										"value": "borgy:bakunawa_heart"
+									},
+									{
+										"test": "is_owner",
+										"subject": "other",
+										"value": true
+									},
+									{
+										"test": "has_component",
+										"subject": "self",
+										"value": "minecraft:is_tamed"
+									},
+                                    {
+										"test": "has_component",
+										"subject": "self",
+                                        "operator": "!=",
+										"value": "minecraft:is_baby"
+									},
+									{
+										"test": "is_sneaking",
+										"subject": "other",
+										"value": true
+									}
+								]
+							},
+							"event": "borgy:on_get_bakunawa_heart",
+							"target": "self"
+						},
+						"interact_text": "action.interact.usebakunawaheart",
+						"use_item": true
+					}
+                ]
+            },
+            "minecraft:environment_sensor": {
+                "triggers": [
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "in_water",
+                                    "subject": "self",
+                                    "value": true
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "value": "minecraft:behavior.move_to_water"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:is_tamed"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:is_baby"
+                                }
+                            ]
+                        },
+                        "event": "borgy:adult_wild_water_mode"
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "is_underwater",
+                                    "subject": "self",
+                                    "value": false
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "value": "minecraft:behavior.random_breach"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:is_tamed"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:is_baby"
+                                }
+                            ]
+                        },
+                        "event": "borgy:adult_wild_air_mode"
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "in_water",
+                                    "subject": "self",
+                                    "value": true
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:is_tamed"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "value": "minecraft:is_baby"
+                                }
+                            ]
+                        },
+                        "event": "borgy:baby_wild_water_mode"
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "is_underwater",
+                                    "subject": "self",
+                                    "value": false
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:is_tamed"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "value": "minecraft:is_baby"
+                                }
+                            ]
+                        },
+                        "event": "borgy:baby_wild_land_mode"
+                    }
+                ]
+            },
+            "minecraft:scheduler": {
+                "scheduled_events": [
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "is_daytime",
+                                    "value": true
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:home"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:is_tamed"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:is_baby"
+                                }
+                            ]
+                        },
+                        "event": "borgy:adult_daytime_mode"
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "is_daytime",
+                                    "value": false
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:home"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:is_tamed"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "self",
+                                    "operator": "!=",
+                                    "value": "minecraft:is_baby"
+                                }
+                            ]
+                        },
+                        "event": "borgy:adult_nightime_mode"
+                    }
+                ]
+            },
+            "minecraft:damage_sensor": {
+                "triggers": [
+                    {
+                        "cause": "fall",
+                        "deals_damage": false
+                    },
+					{
+						"on_damage": {
+							"filters": {
+								"all_of": [
+									{
+								  		"test": "is_family",
+								  		"subject": "other",
+								  		"value": "forcedAttack"
+									},
+									{
+								  		"test": "has_target",
+								  		"subject": "self",
+								  		"value": false
+									},
+									{
+										"test": "has_component",
+										"subject": "self",
+										"operator": "!=",
+										"value": "minecraft:is_baby"
+									},
+									{
+										"test": "has_component",
+										"subject": "self",
+										"operator": "!=",
+										"value": "minecraft:is_tamed"
+									},
+									{
+									  	"test": "has_damage",
+									  	"subject": "self",
+									  	"operator": "!=",
+									  	"value": "fatal"
+									}
+							  	]
+							},
+							"event": "borgy:on_force_attacked",
+							"target": "self"
+						}
+					},
+					{
+						"on_damage": {
+							"filters": {
+						  		"all_of": [
+									{
+							  			"test": "is_family",
+							  			"subject": "other",
+							  			"value": "forcedAttack"
+									},
+									{
+							  			"test": "has_damage",
+							  			"subject": "self",
+							  			"value": "fatal"
+									},
+									{
+							  			"test": "has_component",
+							  			"subject": "self",
+							  			"operator": "!=",
+							  			"value": "minecraft:is_baby"
+									},
+									{
+										"test": "has_component",
+										"subject": "self",
+										"operator": "!=",
+										"value": "minecraft:is_tamed"
+									}
+						  		]
+							},
+							"event": "borgy:on_force_attacked_death",
+							"target": "self"
+					  	}
+					},
+					{
+					  	"on_damage": {
+							"filters": {
+						  		"test": "is_family",
+						  		"subject": "other",
+						  		"value": "sarcoSpinAttack"
+							},
+							"event": "borgy:hit_by_sarco_spin",
+							"target": "self"
+					  	}
+					},
+					{
+						"on_damage": {
+						  	"filters": {
+								"test": "has_equipment",
+								"subject": "other",
+								"value": "rift:dimetrodon_frost_attack"
+						  	},
+						  	"event": "borgy:hit_by_frost_dimetrodon",
+						  	"target": "self"
+						}
+					}
+                ]
+            }
+        },
+        "events": {
+            "minecraft:entity_spawned": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult",
+                        "borgy:bakunawa_adult_wild",
+                        "borgy:bakunawa_adult_on_air",
+                        "borgy:default_targets",
+                        "borgy:is_pushable",
+                        "borgy:default_family"
+                    ]
+                }
+            },
+            "borgy:spawn_as_baby": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_baby",
+                        "borgy:bakunawa_baby_wild",
+                        "borgy:bakunawa_baby_wild_on_land",
+                        "borgy:is_pushable",
+                        "borgy:default_family"
+                    ]
+                }
+            },
+            "borgy:adult_daytime_mode": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_air_to_water",
+                        "borgy:bakunawa_adult_on_land"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_water_to_air",
+                        "borgy:bakunawa_adult_on_air",
+                        "borgy:bakunawa_adult_on_water"
+                    ]
+                }
+            },
+            "borgy:adult_nightime_mode": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_water_to_air"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_air_to_water"
+                    ]
+                }
+            },
+            "borgy:adult_wild_water_mode": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_on_water"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_on_air",
+                        "borgy:bakunawa_adult_on_land",
+                        "borgy:bakunawa_adult_air_to_water",
+                        "borgy:bakunawa_adult_land_use_range",
+                        "borgy:bakunawa_adult_land_use_melee"
+                    ]
+                }
+            },
+            "borgy:adult_wild_air_mode": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_on_air"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_on_water",
+                        "borgy:bakunawa_adult_on_land",
+                        "borgy:bakunawa_adult_water_to_air",
+                        "borgy:bakunawa_adult_land_use_range",
+                        "borgy:bakunawa_adult_land_use_melee"
+                    ]
+                }
+            },
+            "borgy:baby_wild_water_mode": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_baby_wild_on_water"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_baby_wild_on_land"
+                    ]
+                }
+            },
+            "borgy:baby_wild_land_mode": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_baby_wild_on_land"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_baby_wild_on_water"
+                    ]
+                }
+            },
+            "borgy:land_use_melee": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_land_use_melee"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_land_use_range"
+                    ]
+                }
+            },
+            "borgy:land_use_ranged": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_land_use_range"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_land_use_melee"
+                    ]
+                }
+            },
+            "borgy:on_tame": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_baby_tamed",
+                        "borgy:bakunawa_tamed",
+                        "borgy:bakunawa_sittable"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_baby_wild",
+                        "borgy:bakunawa_baby_wild_on_land",
+                        "borgy:bakunawa_baby_wild_on_water"
+                    ]
+                }
+            },
+            "borgy:baby_grow_up_wild": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult",
+                        "borgy:bakunawa_adult_wild",
+                        "borgy:bakunawa_adult_on_air",
+                        "borgy:default_targets"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_baby",
+                        "borgy:bakunawa_baby_wild",
+                        "borgy:bakunawa_baby_wild_on_land",
+                        "borgy:bakunawa_baby_wild_on_water"
+                    ]
+                }
+            },
+            "borgy:baby_grow_up_tamed": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult",
+                        "borgy:bakunawa_adult_tamed",
+                        "borgy:bakunawa_adult_tamed_no_rider",
+                        "borgy:bakunawa_rideable",
+                        "borgy:bakunawa_adult_tamed_has_gravity"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_baby",
+                        "borgy:bakunawa_baby_tamed"
+                    ]
+                }
+            },
+            "borgy:attach_saddle": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_saddled"
+                    ]
+                }
+            },
+            "borgy:remove_saddle": {
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_saddled"
+                    ]
+                }
+            },
+            "borgy:attach_chest": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_chested"
+                    ]
+                }
+            },
+			"borgy:lol": {
+				"run_command": {
+					"command": [
+						"tellraw @p {\"rawtext\":[{\"text\":\"That's not how you tame a Bakunawa, you need to kill them for a chance to get their eggs before taming them!\"}]}"
+					]
+				}
+			},
+            "borgy:cannot_sit": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_tamed_has_rider_hovering",
+                        "borgy:is_unpushable",
+                        "borgy:bakunawa_adult_tamed_has_gravity"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_tamed_no_rider",
+                        "borgy:is_pushable",
+                        "borgy:bakunawa_sittable"
+                    ]
+                }
+            },
+            "borgy:can_sit": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_tamed_no_rider",
+                        "borgy:is_pushable",
+                        "borgy:bakunawa_sittable",
+                        "borgy:bakunawa_adult_tamed_has_gravity"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_tamed_has_rider_hovering",
+                        "borgy:bakunawa_adult_tamed_has_rider_controlled",
+                        "borgy:is_unpushable",
+                        "borgy:bakunawa_adult_tamed_has_no_gravity"
+                    ]
+                }
+            },
+            "borgy:on_hover": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_tamed_has_rider_hovering",
+                        "borgy:bakunawa_adult_tamed_has_no_gravity"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_tamed_has_rider_controlled",
+                        "borgy:bakunawa_adult_tamed_has_gravity"
+                    ]
+                }
+            },
+            "borgy:on_stop_hovering": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_tamed_has_rider_controlled",
+                        "borgy:bakunawa_adult_tamed_has_gravity"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_adult_tamed_has_rider_hovering",
+                        "borgy:bakunawa_adult_tamed_has_no_gravity"
+                    ]
+                }
+            },
+            "borgy:on_get_bakunawa_heart": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_has_received_heart"
+                    ]
+                },
+                "run_command": {
+                    "command": [
+                        "playsound random.eat @a[r=12]"
+                    ]
+                }
+            },
+            "borgy:heart_effect_expire": {
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_has_received_heart"
+                    ]
+                }
+            },
+            "borgy:on_forced_attack_family": {
+                "add": {
+                    "component_groups": [
+                        "borgy:forced_attack_family"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:default_family"
+                    ]
+                }
+            },
+            "borgy:no_forced_attack_family": {
+                "add": {
+                    "component_groups": [
+                        "borgy:default_family"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:forced_attack_family"
+                    ]
+                }
+            },
+			"borgy:on_force_attacked": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "borgy:attack_forced_attack_entity"
+                            ]
+                        },
+                        "remove": {
+                            "component_groups": [
+                                "borgy:default_targets"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "anomalocarisForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "effect @e[type=rift:anomalocaris, tag=tamed, tag=ridden, c=1] instant_health 5 0"
+                            ]
+                        }
+                    }
+                ]
+            },
+			"borgy:no_force_attacked": {
+                "sequence": [
+                    {
+                        "remove": {
+                            "component_groups": [
+                                "borgy:attack_forced_attack_entity"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "has_component",
+                            "subject": "self",
+                            "operator": "!=",
+                            "value": "minecraft:home"
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:default_targets"
+                            ]
+                        }
+                    }
+                ]
+			},
+            "borgy:on_force_attacked_death": {
+                "sequence": [
+                    {},
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "operator": "!=",
+                            "value": "sarcoSpinAttack"
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:drop_experience_from_forced_attack"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "is_family",
+                                    "subject": "other",
+                                    "value": "sarcoSpinAttack"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "other",
+                                    "value": "minecraft:is_tamed"
+                                }
+                            ]
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:drop_experience_from_forced_attack"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "anomalocarisForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "effect @e[type=rift:anomalocaris, tag=tamed, tag=ridden, c=1] instant_health 5 2"
+                            ]
+                        }
+                    }
+                ]
+            },
+			"borgy:hit_by_sarco_spin": {
+				"run_command": {
+					"command": [
+						"effect @s slowness 30 2"
+					]
+				}
+			},
+			"borgy:hit_by_frost_dimetrodon": {
+				"run_command": {
+					"command": [
+						"effect @s weakness 20 2",
+						"effect @s slowness 20 2"
+				  	]
+				}
+			},
+            "borgy:bakunawa_forced_bite": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_forced_attack"
+                    ]
+                }
+            },
+            "borgy:bakunawa_stop_forced_bite": {
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_forced_attack"
+                    ]
+                }
+            },
+            "borgy:force_use_breath_attack": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_use_breath_attack",
+                        "borgy:small_collision"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:default_collision"
+                    ]
+                }
+            },
+            "borgy:stop_force_use_breath_attack": {
+                "add": {
+                    "component_groups": [
+                        "borgy:default_collision"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_use_breath_attack",
+                        "borgy:small_collision"
+                    ]
+                }
+            },
+            "borgy:spawn_as_nest_guardian": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_nest_guardian",
+                        "borgy:bakunawa_nest_guardian_sleeping",
+                        "borgy:bakunawa_adult",
+                        "borgy:bakunawa_adult_wild",
+                        "borgy:default_collision",
+                        "borgy:is_unpushable",
+                        "borgy:default_family"
+                    ]
+                },
+                "run_command": {
+                    "command": [
+                        "tp @s ~ ~ ~ 0"
+                    ]
+                }
+            },
+            "borgy:wake_up": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_nest_guardian_awake",
+                        "borgy:is_pushable"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_nest_guardian_sleeping",
+                        "borgy:is_unpushable"
+                    ]
+                }
+            },
+            "borgy:go_back_home": {
+                "add": {
+                    "component_groups": [
+                        "borgy:bakunawa_nest_guardian_sleeping",
+                        "borgy:is_unpushable"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:bakunawa_nest_guardian_awake",
+                        "borgy:is_pushable"
+                    ]
+                }
+            }
+        }
+    }
+}

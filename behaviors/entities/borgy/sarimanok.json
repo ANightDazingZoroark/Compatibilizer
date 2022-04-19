@@ -1,0 +1,457 @@
+{
+    "format_version": "1.16.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "borgy:sarimanok",
+            "is_spawnable": true,
+            "is_summonable": true,
+            "is_experimental": false,
+            "runtime_identifier": "minecraft:chicken"
+        },
+        "component_groups": {
+            "borgy:give_rewards_and_cooldown": {
+                "minecraft:is_sheared": {},
+                "minecraft:timer": {
+                    "time": 180,
+                    "looping": false,
+                    "time_down_event": {
+                        "event": "borgy:can_be_fed_again",
+                        "target": "self"
+                    }
+                }
+            },
+            "borgy:default_targets": {
+                "minecraft:behavior.nearest_attackable_target": {
+                    "priority": 3,
+                    "within_radius": 24,
+                    "reselect_targets": true,
+                    "entity_types": [
+                        {
+                            "filters": {
+                              "test": "is_family",
+                              "subject": "other",
+                              "value": "parasaurAngerer"
+                            },
+                            "max_dist": 24
+                        }
+                    ]
+                }
+            },
+            "borgy:attack_forced_attack_entity": {
+                "minecraft:behavior.nearest_attackable_target": {
+                    "priority": 3,
+                    "within_radius": 24,
+                    "reselect_targets": true,
+                    "entity_types": [
+                        {
+                            "filters": {
+                              "test": "is_family",
+                              "subject": "other",
+                              "value": "isForcedAttacking"
+                            },
+                            "max_dist": 24
+                        }
+                    ]
+                },
+                "minecraft:on_target_escape": {
+                    "event": "borgy:no_force_attacked",
+                    "target": "self"
+                }
+            },
+			"borgy:drop_experience_from_forced_attack": {
+			  	"minecraft:experience_reward": {
+					"on_death": "Math.random(3,6)"
+			  	}
+			}
+        },
+        "components": {
+            "minecraft:health": {
+                "value": 20
+            },
+            "minecraft:type_family": {
+                "family": [
+                    "sarimanok",
+                    "animal",
+                    "mob"
+                ]
+            },
+            "minecraft:scale": {
+                "value": 0.4
+            },
+            "minecraft:movement": {
+                "value": 0.25
+            },
+            "minecraft:physics": {},
+            "minecraft:pushable": {},
+            "minecraft:navigation.walk": {
+				"avoid_water": true,
+				"avoid_damage_blocks": true
+			},
+            "minecraft:movement.generic": {},
+            "minecraft:jump.static": {},
+            "minecraft:behavior.hurt_by_target": {
+                "priority": 2,
+                "entity_types": {
+                    "filters": {
+                        "all_of": [
+                            {
+                                "test": "is_family",
+                                "subject": "other",
+                                "operator": "!=",
+                                "value": "forcedAttack"
+                            },
+                            {
+                                "test": "has_mob_effect",
+                                "subject": "other",
+                                "operator": "!=",
+                                "value": "wither"
+                            }
+                        ]
+                    }
+                }
+            },
+            "minecraft:behavior.avoid_mob_type": {
+                "priority": 1,
+                "entity_types": [
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "parasaurScary"
+                        },
+                        "max_dist": 10,
+                        "walk_speed_multiplier": 1.5,
+                        "sprint_speed_multiplier": 1.5
+                    }
+                ]
+            },
+            "minecraft:loot": {
+                "table": "loot_tables/sarimanok.loot.json"
+            },
+            "minecraft:mob_effect": {
+                "effect_range": 2,
+                "mob_effect": "wither",
+                "effect_time": 45,
+                "entity_filter": {
+                    "all_of": [
+                        {
+                            "test": "is_target",
+                            "subject": "other",
+                            "value": true
+                        },
+                        {
+                            "test": "has_mob_effect",
+                            "subject": "other",
+                            "operator": "!=",
+                            "value": "wither"
+                        },
+                        {
+                            "any_of": [
+                                {
+                                    "test": "has_equipment",
+                                    "subject": "other",
+                                    "domain": "head",
+                                    "operator": "!=",
+                                    "value": "borgy:plague_mask"
+                                },
+                                {
+                                    "test": "has_equipment",
+                                    "subject": "other",
+                                    "domain": "torso",
+                                    "operator": "!=",
+                                    "value": "borgy:plague_robe"
+                                },
+                                {
+                                    "test": "has_equipment",
+                                    "subject": "other",
+                                    "domain": "leg",
+                                    "operator": "!=",
+                                    "value": "borgy:plague_leggings"
+                                },
+                                {
+                                    "test": "has_equipment",
+                                    "subject": "other",
+                                    "domain": "feet",
+                                    "operator": "!=",
+                                    "value": "borgy:plague_boots"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "minecraft:behavior.panic": {
+                "priority": 3,
+                "speed_multiplier": 1.75
+            },
+            "minecraft:behavior.random_stroll": {
+                "priority": 5
+            },
+            "minecraft:behavior.random_look_around": {
+                "priority": 6
+            },
+            "minecraft:experience_reward": {
+                "on_death": "query.last_hit_by_player ? Math.Random(3,6) : 0"
+            },
+            "minecraft:damage_sensor": {
+				"triggers": [
+					{
+						"cause": "fall",
+						"deals_damage": false
+					},					
+                    {
+						"on_damage": {
+							"filters": {
+								"all_of": [
+									{
+								  		"test": "is_family",
+								  		"subject": "other",
+								  		"value": "forcedAttack"
+									},
+									{
+								  		"test": "has_target",
+								  		"subject": "self",
+								  		"value": false
+									},
+									{
+										"test": "has_component",
+										"subject": "self",
+										"operator": "!=",
+										"value": "minecraft:is_baby"
+									},
+									{
+									  	"test": "has_damage",
+									  	"subject": "self",
+									  	"operator": "!=",
+									  	"value": "fatal"
+									}
+							  	]
+							},
+							"event": "borgy:on_force_attacked",
+							"target": "self"
+						}
+					},
+					{
+						"on_damage": {
+							"filters": {
+						  		"all_of": [
+									{
+							  			"test": "is_family",
+							  			"subject": "other",
+							  			"value": "forcedAttack"
+									},
+									{
+							  			"test": "has_damage",
+							  			"subject": "self",
+							  			"value": "fatal"
+									},
+									{
+							  			"test": "has_component",
+							  			"subject": "self",
+							  			"operator": "!=",
+							  			"value": "minecraft:is_baby"
+									}
+						  		]
+							},
+							"event": "borgy:on_force_attacked_death",
+							"target": "self"
+					  	}
+					},
+					{
+					  	"on_damage": {
+							"filters": {
+						  		"test": "is_family",
+						  		"subject": "other",
+						  		"value": "sarcoSpinAttack"
+							},
+							"event": "borgy:hit_by_sarco_spin",
+							"target": "self"
+					  	}
+					},
+					{
+						"on_damage": {
+						  	"filters": {
+								"test": "has_equipment",
+								"subject": "other",
+								"value": "rift:dimetrodon_frost_attack"
+						  	},
+						  	"event": "borgy:hit_by_frost_dimetrodon",
+						  	"target": "self"
+						}
+					}
+				]
+			},
+            "minecraft:interact": {
+                "interactions": [
+                    {
+                        "on_interact": {
+                            "filters": {
+                                "all_of": [
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    },
+                                    {
+                                        "test": "has_equipment",
+                                        "domain": "hand",
+                                        "subject": "other",
+                                        "value": "borgy:sarimanok_food"
+                                    },
+                                    {
+                                        "test": "has_component",
+                                        "subject": "self",
+                                        "operator": "!=",
+                                        "value": "minecraft:is_sheared"
+                                    }
+                                ]
+                            },
+                            "event": "borgy:give_rewards",
+                            "target": "self"
+                        },
+                        "use_item": true,
+                        "play_sounds": "eat",
+                        "interact_text": "action.interact.feed",
+                        "spawn_items": {
+                            "table": "loot_tables/sarimanok rewards.loot.json"
+                        }
+                    }
+                ]
+            }
+        },
+        "events": {
+            "minecraft:entity_spawned": {
+                "add": {
+                    "component_groups": [
+                        "borgy:default_targets"
+                    ]
+                }
+            },
+            "borgy:give_rewards": {
+                "add": {
+                    "component_groups": [
+                        "borgy:give_rewards_and_cooldown"
+                    ]
+                },
+                "run_command": {
+                    "command": [
+                        "summon borgy:sarimanok_experience_reward ~ ~+1 ~"
+                    ]
+                }
+            },
+            "borgy:can_be_fed_again": {
+                "remove": {
+                    "component_groups": [
+                        "borgy:give_rewards_and_cooldown"
+                    ]
+                }
+            },
+			"borgy:on_force_attacked": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "borgy:attack_forced_attack_entity"
+                            ]
+                        },
+                        "remove": {
+                            "component_groups": [
+                                "borgy:default_targets"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "anomalocarisForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "effect @e[type=rift:anomalocaris, tag=tamed, tag=ridden, c=1] instant_health 5 0"
+                            ]
+                        }
+                    }
+                ]
+            },
+			"borgy:no_force_attacked": {
+                "add": {
+                    "component_groups": [
+                        "borgy:default_targets"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:attack_forced_attack_entity"
+                    ]
+                }
+			},
+			"borgy:hit_by_sarco_spin": {
+				"run_command": {
+					"command": [
+						"effect @s slowness 30 2"
+					]
+				}
+			},
+			"borgy:hit_by_frost_dimetrodon": {
+				"run_command": {
+					"command": [
+						"effect @s weakness 20 2",
+						"effect @s slowness 20 2"
+				  	]
+				}
+			},
+			"borgy:on_force_attacked_death": {
+                "sequence": [
+                    {},
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "operator": "!=",
+                            "value": "sarcoSpinAttack"
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:drop_experience_from_forced_attack"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "is_family",
+                                    "subject": "other",
+                                    "value": "sarcoSpinAttack"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "other",
+                                    "value": "minecraft:is_tamed"
+                                }
+                            ]
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:drop_experience_from_forced_attack"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "anomalocarisForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "effect @e[type=rift:anomalocaris, tag=tamed, tag=ridden, c=1] instant_health 5 2"
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
