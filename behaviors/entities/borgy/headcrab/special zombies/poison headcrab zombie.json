@@ -1,0 +1,1119 @@
+{
+    "format_version": "1.16.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "borgy:poison_headcrab_zombie",
+            "is_spawnable": true,
+            "is_summonable": true,
+            "is_experimental": false,
+            "animations": {
+                "contThrowSystem": "controller.animation.poison_headcrab_zombie_throwing",
+                "animThrowHeadcrab": "animation.start_throwing_poison_headcrab",
+                "animThrowCooldown": "animation.throw_poison_headcrab_cooldown"
+            },
+            "scripts": {
+                "animate": [
+                    "contThrowSystem"
+                ]
+            }
+        },
+        "component_groups": {
+            "borgy:no_passengers": {
+                "minecraft:variant": {
+                    "value": 0
+                },
+                "minecraft:entity_sensor": {
+                    "sensor_range": 2.5,
+                    "relative_range": false,
+                    "minimum_count": 1,
+                    "event_filters": {
+                        "all_of": [
+                            {
+                                "test": "is_variant",
+                                "subject": "self",
+                                "operator": "==",
+                                "value": 0
+                            },
+                            {
+                                "test": "is_family",
+                                "subject": "other",
+                                "value": "poisonHeadcrab"
+                            },
+                            {
+                                "test": "is_family",
+                                "subject": "other",
+                                "operator": "!=",
+                                "value": "poison_headcrab_zombie"
+                            }
+                        ]
+                    },
+                    "event": "borgy:to_one_passenger"
+                }
+            },
+            "borgy:passenger_cooldown": {
+                "minecraft:is_sheared": {},
+                "minecraft:timer": {
+                    "time": 3,
+                    "time_down_event": {
+                        "event": "borgy:no_cooldown",
+                        "target": "self"
+                    }
+                }
+            },
+            "borgy:one_passenger": {
+                "minecraft:variant": {
+                    "value": 1
+                },
+                "minecraft:entity_sensor": {
+                    "sensor_range": 2.5,
+                    "relative_range": false,
+                    "minimum_count": 1,
+                    "event_filters": {
+                        "all_of": [
+                            {
+                                "test": "is_variant",
+                                "subject": "self",
+                                "operator": "==",
+                                "value": 1
+                            },
+                            {
+                                "test": "has_component",
+                                "subject": "self",
+                                "operator": "!=",
+                                "value": "minecraft:is_sheared"
+                            },
+                            {
+                                "test": "is_family",
+                                "subject": "other",
+                                "value": "poisonHeadcrab"
+                            },
+                            {
+                                "test": "is_family",
+                                "subject": "other",
+                                "operator": "!=",
+                                "value": "poison_headcrab_zombie"
+                            },
+                            {
+                                "test": "has_damage",
+                                "subject": "self",
+                                "operator": "!=",
+                                "value": "fatal"
+                            }
+                        ]
+                    },
+                    "event": "borgy:to_two_passengers"
+                },
+                "minecraft:on_target_acquired": {
+                    "filters": {
+                        "test": "has_component",
+                        "subject": "self",
+                        "operator": "!=",
+                        "value": "minecraft:is_charged"
+                    },
+                    "event": "borgy:throw_poison_headcrab",
+                    "target": "self"
+                }
+            },
+            "borgy:two_passengers": {
+                "minecraft:variant": {
+                    "value": 2
+                },
+                "minecraft:on_target_acquired": {
+                    "filters": {
+                        "test": "has_component",
+                        "subject": "self",
+                        "operator": "!=",
+                        "value": "minecraft:is_charged"
+                    },
+                    "event": "borgy:throw_poison_headcrab",
+                    "target": "self"
+                }
+            },
+            "borgy:on_throw_poison_headcrab": {
+                "minecraft:is_charged": {}
+            },
+            "borgy:target_by_throwing": {
+                "minecraft:behavior.ranged_attack": {
+                    "priority": 4,
+                    "attack_radius": 6
+                }
+            },
+            "borgy:start_throwing_poison_headcrab": {
+                "minecraft:spawn_entity": {
+                    "entities": [
+                        {
+                            "min_wait_time": 0,
+                            "max_wait_time": 0,
+                            "spawn_entity": "borgy:thrown_poison_headcrab",
+                            "single_use": true,
+                            "num_to_spawn": 1
+                        }
+                    ]
+                }
+            },
+            "borgy:can_melee": {
+                "minecraft:behavior.melee_attack": {
+                    "priority": 4,
+                    "reach_multiplier": 1.5
+                }
+            },
+            "borgy:default_targets": {
+                "minecraft:behavior.nearest_attackable_target": {
+                    "priority": 3,
+                    "within_radius": 24,
+                    "reselect_targets": true,
+                    "must_see": true,
+                    "entity_types": [
+                        {
+                            "filters": {
+                                "any_of": [
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "animal"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "pig"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "cow"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "sheep"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "chicken"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "rabbit"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "horse"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "goat"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "donkey"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "mule"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "panda"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "polarbear"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "parrot"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "wolf"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "cat"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "ocelot"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "parrot"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "fox"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "llama"
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "villager"
+                                    },
+                                    {
+                                        "all_of": [
+                                            {
+                                                "test": "is_family",
+                                                "subject": "other",
+                                                "value": "illager"
+                                            },
+                                            {
+                                                "test": "is_family",
+                                                "subject": "other",
+                                                "operator": "!=",
+                                                "value": "ravager"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "wandering_trader"
+                                    }
+                                ]
+                            },
+                            "max_dist": 24
+                        },
+                        {
+                            "filters": {
+                                "all_of": [
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "player"
+                                    },
+                                    {
+                                        "test": "is_riding",
+                                        "subject": "other",
+                                        "value": false
+                                    }
+                                ]
+                            },
+                            "max_dist": 24
+                        }
+                    ]
+                }
+            },
+            "borgy:attack_forced_attack_entity": {
+                "minecraft:behavior.nearest_attackable_target": {
+                    "priority": 3,
+                    "within_radius": 24,
+                    "reselect_targets": true,
+                    "entity_types": [
+                        {
+                            "filters": {
+                              "test": "is_family",
+                              "subject": "other",
+                              "value": "isForcedAttacking"
+                            },
+                            "max_dist": 24
+                        }
+                    ]
+                },
+                "minecraft:on_target_escape": {
+                    "event": "borgy:no_force_attacked",
+                    "target": "self"
+                }
+            },
+			"borgy:drop_experience_from_forced_attack": {
+			  	"minecraft:experience_reward": {
+					"on_death": "Math.random(3,6)"
+			  	}
+			},
+            "borgy:leave_two_headcrabs_behind": {
+                "minecraft:spawn_entity": {
+                    "entities": [
+						{
+							"spawn_entity": "borgy:poison_headcrab",
+                            "spawn_event": "minecraft:entity_spawned",
+							"min_wait_time": 0,
+							"max_wait_time": 0,
+                            "num_to_spawn": 2,
+                            "single_use": true
+						},
+                        {
+                            "spawn_entity": "borgy:poison_puddle",
+                            "spawn_event": "minecraft:entity_spawned",
+							"min_wait_time": 0,
+							"max_wait_time": 0,
+                            "single_use": true
+                        }
+					]
+                }
+            },
+            "borgy:leave_one_headcrab_behind": {
+                "minecraft:spawn_entity": {
+                    "entities": [
+						{
+							"spawn_entity": "borgy:poison_headcrab",
+                            "spawn_event": "minecraft:entity_spawned",
+							"min_wait_time": 0,
+							"max_wait_time": 0,
+                            "single_use": true
+						},
+                        {
+                            "spawn_entity": "borgy:poison_puddle",
+                            "spawn_event": "minecraft:entity_spawned",
+							"min_wait_time": 0,
+							"max_wait_time": 0,
+                            "single_use": true
+                        }
+					]
+                }
+            },
+            "borgy:leave_no_headcrabs_behind": {
+                "minecraft:spawn_entity": {
+                    "entities": [
+                        {
+                            "spawn_entity": "borgy:poison_puddle",
+                            "spawn_event": "minecraft:entity_spawned",
+							"min_wait_time": 0,
+							"max_wait_time": 0,
+                            "single_use": true
+                        }
+					]
+                }
+            }
+        },
+        "components": {
+            "minecraft:health": {
+                "value": 40
+            },
+            "minecraft:attack": {
+                "damage": 7
+            },
+            "minecraft:breathable": {
+				"total_supply": 15,
+				"suffocate_time": 0
+			},
+            "minecraft:collision_box": {
+                "width": 0.6,
+                "height": 1.9
+            },
+            "minecraft:movement": {
+                "value": 0.15
+            },
+            "minecraft:type_family": {
+                "family": [
+                    "poison_headcrab_zombie",
+                    "headcrab_zombie_general",
+                    "mob"
+                ]
+            },
+            "minecraft:physics": {},
+            "minecraft:pushable": {},
+			"minecraft:navigation.walk": {
+				"avoid_water": true,
+				"avoid_damage_blocks": true
+			},
+			"minecraft:movement.basic": {},
+            "minecraft:jump.static": {},
+            "minecraft:behavior.random_stroll": {
+                "priority": 6
+            },
+            "minecraft:behavior.hurt_by_target": {
+				"priority": 2,
+                "entity_types": {
+                    "filters": {
+                        "all_of": [
+                            {
+                                "test": "is_family",
+                                "subject": "other",
+                                "operator": "!=",
+                                "value": "headcrabGeneral"
+                            },
+                            {
+                                "test": "is_family",
+                                "subject": "other",
+                                "operator": "!=",
+                                "value": "headcrab_zombie_general"
+                            },
+                            {
+                                "test": "is_family",
+                                "subject": "other",
+                                "operator": "!=",
+                                "value": "sigbin"
+                            },
+                            {
+                                "test": "is_family",
+                                "subject": "other",
+                                "operator": "!=",
+                                "value": "forcedAttack"
+                            }
+                        ]
+                    }
+                }
+			},
+            "minecraft:behavior.avoid_mob_type": {
+                "priority": 1,
+                "entity_types": [
+                    {
+                        "filters": {
+                            "any_of": [
+                                {
+                                    "test": "is_family",
+                                    "subject": "other",
+                                    "value": "sigbin"
+                                },
+                                {
+                                    "test": "is_family",
+                                    "subject": "other",
+                                    "value": "parasaurScary"
+                                }
+                            ]
+                        },
+                        "max_dist": 10,
+                        "walk_speed_multiplier": 1.5,
+                        "sprint_speed_multiplier": 1.5
+                    }
+                ]
+            },
+            "minecraft:is_hidden_when_invisible": {},
+            "minecraft:nameable": {},
+            "minecraft:experience_reward": {
+                "on_death": "query.last_hit_by_player ? Math.Random(3,6) : 0"
+            },
+            "minecraft:despawn": {
+                "despawn_from_distance": {}
+            },
+            "minecraft:damage_sensor": {
+                "triggers": [
+                    {
+                        "on_damage": {
+                            "filters": {
+                                "all_of": [
+                                    {
+                                        "test": "has_damage",
+                                        "subject": "self",
+                                        "value": "fatal"
+                                    },
+                                    {
+                                        "test": "is_variant",
+                                        "subject": "self",
+                                        "value": 2
+                                    },
+									{
+							  			"test": "is_family",
+							  			"subject": "other",
+                                        "operator": "!=",
+							  			"value": "forcedAttack"
+									}
+                                ]
+                            },
+                            "event": "borgy:leave_two_headcrabs_behind",
+                            "target": "self"
+                        }
+                    },
+                    {
+                        "on_damage": {
+                            "filters": {
+                                "all_of": [
+                                    {
+                                        "test": "has_damage",
+                                        "subject": "self",
+                                        "value": "fatal"
+                                    },
+                                    {
+                                        "test": "is_variant",
+                                        "subject": "self",
+                                        "value": 1
+                                    },
+									{
+							  			"test": "is_family",
+							  			"subject": "other",
+                                        "operator": "!=",
+							  			"value": "forcedAttack"
+									}
+                                ]
+                            },
+                            "event": "borgy:leave_one_headcrab_behind",
+                            "target": "self"
+                        }
+                    },
+                    {
+                        "on_damage": {
+                            "filters": {
+                                "all_of": [
+                                    {
+                                        "test": "has_damage",
+                                        "subject": "self",
+                                        "value": "fatal"
+                                    },
+                                    {
+                                        "test": "is_variant",
+                                        "subject": "self",
+                                        "value": 0
+                                    },
+									{
+							  			"test": "is_family",
+							  			"subject": "other",
+                                        "operator": "!=",
+							  			"value": "forcedAttack"
+									}
+                                ]
+                            },
+                            "event": "borgy:leave_no_headcrabs_behind",
+                            "target": "self"
+                        }
+                    },
+                    {
+						"on_damage": {
+							"filters": {
+								"all_of": [
+									{
+								  		"test": "is_family",
+								  		"subject": "other",
+								  		"value": "forcedAttack"
+									},
+									{
+								  		"test": "has_target",
+								  		"subject": "self",
+								  		"value": false
+									},
+									{
+									  	"test": "has_damage",
+									  	"subject": "self",
+									  	"operator": "!=",
+									  	"value": "fatal"
+									}
+							  	]
+							},
+							"event": "borgy:on_force_attacked",
+							"target": "self"
+						}
+					},
+					{
+						"on_damage": {
+							"filters": {
+						  		"all_of": [
+									{
+							  			"test": "is_family",
+							  			"subject": "other",
+							  			"value": "forcedAttack"
+									},
+									{
+							  			"test": "has_damage",
+							  			"subject": "self",
+							  			"value": "fatal"
+									},
+                                    {
+                                        "test": "is_variant",
+                                        "subject": "self",
+                                        "value": 2
+                                    }
+						  		]
+							},
+							"event": "borgy:on_force_attacked_death_two_headcrabs",
+							"target": "self"
+					  	}
+					},
+					{
+						"on_damage": {
+							"filters": {
+						  		"all_of": [
+									{
+							  			"test": "is_family",
+							  			"subject": "other",
+							  			"value": "forcedAttack"
+									},
+									{
+							  			"test": "has_damage",
+							  			"subject": "self",
+							  			"value": "fatal"
+									},
+                                    {
+                                        "test": "is_variant",
+                                        "subject": "self",
+                                        "value": 1
+                                    }
+						  		]
+							},
+							"event": "borgy:on_force_attacked_death_one_headcrab",
+							"target": "self"
+					  	}
+					},
+					{
+						"on_damage": {
+							"filters": {
+						  		"all_of": [
+									{
+							  			"test": "is_family",
+							  			"subject": "other",
+							  			"value": "forcedAttack"
+									},
+									{
+							  			"test": "has_damage",
+							  			"subject": "self",
+							  			"value": "fatal"
+									},
+                                    {
+                                        "test": "is_variant",
+                                        "subject": "self",
+                                        "value": 0
+                                    }
+						  		]
+							},
+							"event": "borgy:on_force_attacked_death_no_headcrabs",
+							"target": "self"
+					  	}
+					},
+					{
+					  	"on_damage": {
+							"filters": {
+						  		"test": "is_family",
+						  		"subject": "other",
+						  		"value": "sarcoSpinAttack"
+							},
+							"event": "borgy:hit_by_sarco_spin",
+							"target": "self"
+					  	}
+					},
+					{
+						"on_damage": {
+						  	"filters": {
+								"test": "has_equipment",
+								"subject": "other",
+								"value": "rift:dimetrodon_frost_attack"
+						  	},
+						  	"event": "borgy:hit_by_frost_dimetrodon",
+						  	"target": "self"
+						}
+					}
+                ]
+            }
+        },
+        "events": {
+            "minecraft:entity_spawned": {
+                "add": {
+                    "component_groups": [
+                        "borgy:two_passengers",
+                        "borgy:default_targets",
+                        "borgy:can_melee"
+                    ]
+                }
+            },
+            "borgy:has_no_passengers": {
+                "add": {
+                    "component_groups": [
+                        "borgy:no_passengers",
+                        "borgy:default_targets",
+                        "borgy:can_melee"
+                    ]
+                }
+            },
+            "borgy:to_one_passenger": {
+                "add": {
+                    "component_groups": [
+                        "borgy:one_passenger",
+                        "borgy:passenger_cooldown"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:no_passengers"
+                    ]
+                },
+                "run_command": {
+                    "command": [
+                        "event entity @e[type=borgy:poison_headcrab, c=1] borgy:into_poison_headcrab_zombie"
+                    ]
+                }
+            },
+            "borgy:no_cooldown": {
+                "remove": {
+                    "component_groups": [
+                        "borgy:passenger_cooldown"
+                    ]
+                }
+            },
+            "borgy:to_two_passengers": {
+                "add": {
+                    "component_groups": [
+                        "borgy:two_passengers"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:one_passenger"
+                    ]
+                },
+                "run_command": {
+                    "command": [
+                        "event entity @e[type=borgy:poison_headcrab, c=1] borgy:into_poison_headcrab_zombie"
+                    ]
+                }
+            },
+            "borgy:leave_two_headcrabs_behind": {
+                "add": {
+                    "component_groups": [
+                        "borgy:leave_two_headcrabs_behind"
+                    ]
+                }
+            },
+            "borgy:leave_one_headcrab_behind": {
+                "add": {
+                    "component_groups": [
+                        "borgy:leave_one_headcrab_behind"
+                    ]
+                }
+            },
+            "borgy:leave_no_headcrabs_behind": {
+                "add": {
+                    "component_groups": [
+                        "borgy:leave_no_headcrabs_behind"
+                    ]
+                }
+            },
+            "borgy:throw_poison_headcrab": {
+                "add": {
+                    "component_groups": [
+                        "borgy:target_by_throwing",
+                        "borgy:on_throw_poison_headcrab"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:can_melee"
+                    ]
+                }
+            },
+            "borgy:start_to_throw_poison_headcrab": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "borgy:can_melee",
+                                "borgy:start_throwing_poison_headcrab"
+                            ]
+                        },
+                        "remove": {
+                            "component_groups": [
+                                "borgy:target_by_throwing"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_variant",
+                            "subject": "self",
+                            "value": 2
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:one_passenger"
+                            ]
+                        },
+                        "remove": {
+                            "component_groups": [
+                                "borgy:two_passengers"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_variant",
+                            "subject": "self",
+                            "value": 1
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:no_passengers"
+                            ]
+                        },
+                        "remove": {
+                            "component_groups": [
+                                "borgy:one_passenger"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "borgy:end_throw_cooldown": {
+                "remove": {
+                    "component_groups": [
+                        "borgy:on_throw_poison_headcrab"
+                    ]
+                }
+            },
+			"borgy:on_force_attacked": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "borgy:attack_forced_attack_entity"
+                            ]
+                        },
+                        "remove": {
+                            "component_groups": [
+                                "borgy:default_targets"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "anomalocarisForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "effect @e[type=rift:anomalocaris, tag=tamed, tag=ridden, c=1] instant_health 5 0"
+                            ]
+                        }
+                    }
+                ]
+            },
+			"borgy:no_force_attacked": {
+                "add": {
+                    "component_groups": [
+                        "borgy:default_targets"
+                    ]
+                },
+                "remove": {
+                    "component_groups": [
+                        "borgy:attack_forced_attack_entity"
+                    ]
+                }
+			},
+			"borgy:hit_by_sarco_spin": {
+				"run_command": {
+					"command": [
+						"effect @s slowness 30 2"
+					]
+				}
+			},
+			"borgy:hit_by_frost_dimetrodon": {
+				"run_command": {
+					"command": [
+						"effect @s weakness 20 2",
+						"effect @s slowness 20 2"
+				  	]
+				}
+			},
+			"borgy:on_force_attacked_death_two_headcrabs": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "borgy:leave_two_headcrabs_behind"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "operator": "!=",
+                            "value": "sarcoSpinAttack"
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:drop_experience_from_forced_attack"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "is_family",
+                                    "subject": "other",
+                                    "value": "sarcoSpinAttack"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "other",
+                                    "value": "minecraft:is_tamed"
+                                }
+                            ]
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:drop_experience_from_forced_attack"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "saurophaganaxForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "scoreboard players add @e[type=rift:saurophaganax, c=1, scores={saurophLightBlst=!10}] saurophLightBlst 1"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "anomalocarisForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "effect @e[type=rift:anomalocaris, tag=tamed, tag=ridden, c=1] instant_health 5 2"
+                            ]
+                        }
+                    }
+                ]
+            },
+			"borgy:on_force_attacked_death_one_headcrab": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "borgy:leave_one_headcrab_behind"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "operator": "!=",
+                            "value": "sarcoSpinAttack"
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:drop_experience_from_forced_attack"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "is_family",
+                                    "subject": "other",
+                                    "value": "sarcoSpinAttack"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "other",
+                                    "value": "minecraft:is_tamed"
+                                }
+                            ]
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:drop_experience_from_forced_attack"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "saurophaganaxForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "scoreboard players add @e[type=rift:saurophaganax, c=1, scores={saurophLightBlst=!10}] saurophLightBlst 1"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "anomalocarisForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "effect @e[type=rift:anomalocaris, tag=tamed, tag=ridden, c=1] instant_health 5 2"
+                            ]
+                        }
+                    }
+                ]
+            },
+			"borgy:on_force_attacked_death_no_headcrabs": {
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "borgy:leave_no_headcrabs_behind"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "operator": "!=",
+                            "value": "sarcoSpinAttack"
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:drop_experience_from_forced_attack"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "all_of": [
+                                {
+                                    "test": "is_family",
+                                    "subject": "other",
+                                    "value": "sarcoSpinAttack"
+                                },
+                                {
+                                    "test": "has_component",
+                                    "subject": "other",
+                                    "value": "minecraft:is_tamed"
+                                }
+                            ]
+                        },
+                        "add": {
+                            "component_groups": [
+                                "borgy:drop_experience_from_forced_attack"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "saurophaganaxForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "scoreboard players add @e[type=rift:saurophaganax, c=1, scores={saurophLightBlst=!10}] saurophLightBlst 1"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "anomalocarisForcedAttack"
+                        },
+                        "run_command": {
+                            "command": [
+                                "effect @e[type=rift:anomalocaris, tag=tamed, tag=ridden, c=1] instant_health 5 2"
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
