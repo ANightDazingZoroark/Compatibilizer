@@ -175,92 +175,7 @@
                                     {
                                         "test": "is_family",
                                         "subject": "other",
-                                        "value": "pig"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "cow"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "sheep"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "chicken"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "rabbit"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "horse"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "goat"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "donkey"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "mule"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "panda"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "polarbear"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "parrot"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "wolf"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "cat"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "ocelot"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "parrot"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "fox"
-                                    },
-                                    {
-                                        "test": "is_family",
-                                        "subject": "other",
-                                        "value": "llama"
+                                        "value": "parasaurAngerer"
                                     },
                                     {
                                         "test": "is_family",
@@ -761,25 +676,73 @@
                 }
             },
             "borgy:leave_two_headcrabs_behind": {
-                "add": {
-                    "component_groups": [
-                        "borgy:leave_two_headcrabs_behind"
-                    ]
-                }
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "borgy:leave_two_headcrabs_behind"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "saurophaganax"
+                        },
+                        "run_command": {
+                            "command": [
+                                "scoreboard players add @e[type=rift:saurophaganax, c=1, scores={saurophLightBlst=!10}] saurophLightBlst 1"
+                            ]
+                        }
+                    }
+                ]
             },
             "borgy:leave_one_headcrab_behind": {
-                "add": {
-                    "component_groups": [
-                        "borgy:leave_one_headcrab_behind"
-                    ]
-                }
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "borgy:leave_one_headcrab_behind"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "saurophaganax"
+                        },
+                        "run_command": {
+                            "command": [
+                                "scoreboard players add @e[type=rift:saurophaganax, c=1, scores={saurophLightBlst=!10}] saurophLightBlst 1"
+                            ]
+                        }
+                    }
+                ]
             },
             "borgy:leave_no_headcrabs_behind": {
-                "add": {
-                    "component_groups": [
-                        "borgy:leave_no_headcrabs_behind"
-                    ]
-                }
+                "sequence": [
+                    {
+                        "add": {
+                            "component_groups": [
+                                "borgy:leave_no_headcrabs_behind"
+                            ]
+                        }
+                    },
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "saurophaganax"
+                        },
+                        "run_command": {
+                            "command": [
+                                "scoreboard players add @e[type=rift:saurophaganax, c=1, scores={saurophLightBlst=!10}] saurophLightBlst 1"
+                            ]
+                        }
+                    }
+                ]
             },
             "borgy:throw_poison_headcrab": {
                 "add": {

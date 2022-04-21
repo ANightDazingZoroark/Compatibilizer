@@ -191,6 +191,26 @@
 					{
 						"on_damage": {
 							"filters": {
+                                "all_of": [
+                                    {
+                                        "test": "is_family",
+                                        "subject": "other",
+                                        "value": "saurophaganax"
+                                    },
+                                    {
+                                        "test": "has_damage",
+                                        "subject": "self",
+                                        "value": "fatal"
+                                    }
+                                ]
+							},
+							"event": "borgy:killed_by_saurophaganax",
+							"target": "self"
+						}
+					},
+					{
+						"on_damage": {
+							"filters": {
 						  		"all_of": [
 									{
 							  			"test": "is_family",
@@ -361,6 +381,13 @@
                         }
                     }
                 ]
+            },
+            "borgy:killed_by_saurophaganax": {
+                "run_command": {
+                    "command": [
+                        "scoreboard players add @e[type=rift:saurophaganax, c=1, scores={saurophLightBlst=!10}] saurophLightBlst 1"
+                    ]
+                }
             }
         }
     }
