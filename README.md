@@ -1,5 +1,5 @@
 # Compatibilizer
-A compatibilizer for Prehistoric Rift and Borgy's Mobs. The following interactions can happen when this addon is installed.
+A compatibilizer for Prehistoric Rift and Borgy's Mobs. This addon will be updated after either one of the two addons gets updated if necessary. The following interactions can happen when this addon is installed.
 
 * Triceratops' rivalry buff can be triggered by Bakunawas
 * Saurophaganaxes will eat Headcrabs (& their variants), Headcrab Zombies (& their variants), Manananggals, and Sigbins, and eating them will affect if they will use their light blast attack
