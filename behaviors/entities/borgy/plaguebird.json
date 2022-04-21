@@ -35,10 +35,10 @@
                     ]
                 },
                 "minecraft:behavior.follow_parent": {
-					"priority": 3
+					"priority": 4
                 },
                 "minecraft:behavior.tempt": {
-					"priority": 2,
+					"priority": 3,
 					"within_radius": 16,
 					"speed_multiplier": 1,
 					"items": [
@@ -65,7 +65,7 @@
                     "table": "loot_tables/plaguebird.loot.json"
                 },
                 "minecraft:behavior.tempt": {
-					"priority": 2,
+					"priority": 3,
 					"within_radius": 16,
 					"speed_multiplier": 1,
 					"items": [
@@ -124,13 +124,28 @@
             "minecraft:behavior.float": {},
             "minecraft:jump.static": {},
             "minecraft:behavior.panic": {
-                "priority": 1
+                "priority": 2
             },
             "minecraft:behavior.random_stroll": {
-                "priority": 4
+                "priority": 5
             },
             "minecraft:behavior.random_look_around": {
-                "priority": 5
+                "priority": 6
+            },
+            "minecraft:behavior.avoid_mob_type": {
+                "priority": 1,
+                "entity_types": [
+                    {
+                        "filters": {
+                            "test": "is_family",
+                            "subject": "other",
+                            "value": "parasaurScary"
+                        },
+                        "max_dist": 10,
+                        "walk_speed_multiplier": 1.5,
+                        "sprint_speed_multiplier": 1.5
+                    }
+                ]
             },
 			"minecraft:leashable": {
 				"soft_distance": 4,
