@@ -27,6 +27,16 @@
 			]
 		}
 	],
+	"dependencies": [
+		{
+			"uuid": "5053f212-b0b0-4b99-abe9-377f2c19c39a",
+			"version": [
+				1,
+				0,
+				0
+			]
+		}
+	],
 	"metadata": {
 		"authors": [
 			"ANightDazingZoroark"
